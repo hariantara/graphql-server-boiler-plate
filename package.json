@@ -1,0 +1,31 @@
+{
+  "name": "graphql-server-boiler-plate",
+  "version": "0.0.1",
+  "description": "express graphql server boiler plate with modularization (type, mutation, query)",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hariantara",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-engine": "^1.1.0",
+    "apollo-server-express": "^1.3.5",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "connect": "^3.6.6",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "express-graphql": "^0.6.12",
+    "graphql": "^0.13.2",
+    "graphql-tools": "^2.24.0",
+    "jsonwebtoken": "^8.2.1",
+    "lodash": "^4.17.5",
+    "mysql2": "^1.5.3",
+    "nodemailer": "^4.6.4",
+    "nodemon": "^1.17.3"
+  }
+}
