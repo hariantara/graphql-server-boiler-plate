@@ -1,7 +1,13 @@
 const gqTools = require('graphql-tools');
 
 // Import graphql types
-const user = require('./types/user');
+
+// admin Types
+const admin = require('./types/admin');
+const doctorAdmin = require('./types/doctor_admin')
+
+// doctor Types 
+const doctor = require('./types/doctor')
 
 //import graphql Resolvers
 const resolversFunc = require('../resolvers')
@@ -9,17 +15,39 @@ const resolversFunc = require('../resolvers')
 //Query Resolvers
 const getUserList = resolversFunc.getUserList.getUserList
 
-//Mutation Mutations
+//Mutations Resolvers
+// Admin
 const createNewUser = resolversFunc.createNewUser.createNewUser
+const updateAdmin = resolversFunc.updateAdmin.updateAdmin
+const deleteAdmin = resolversFunc.deleteAdmin.deleteAdmin
+const loginAdmin = resolversFunc.loginAdmin.loginAdmin
+const createDoctorAdmin = resolversFunc.createDoctorAdmin.createDoctorAdmin
+const updateDoctorAdmin = resolversFunc.updateDoctorAdmin.updateDoctorAdmin
+const deleteDoctorAdmin = resolversFunc.deleteDoctorAdmin.deleteDoctorAdmin
+
+// Doctor 
+const doctorUpdate = resolversFunc.doctorUpdate.doctorUpdate
+const doctorLogin = resolversFunc.doctorLogin.doctorLogin
 
 //Schema Definitions
 const schemaDefinition = `
     type Query {
-        getUserList: user
+        getUserList: getAlluser
     }
 
     type Mutation {
-        createNewUser(name: String): user
+        # Admin
+        createNewUser(input: newUser): createNewUserPayload
+        loginAdmin(input: loginAdmin): loginAdminPayload
+        updateAdmin(input: updateAdmin): createNewUserPayload
+        deleteAdmin(input: deleteAdmin): createNewUserPayload
+        createDoctorAdmin(input: createDoctorAdmin): createDoctorPayloadAdmin
+        updateDoctorAdmin(input: updateDoctorAdmin): createDoctorPayloadAdmin
+        deleteDoctorAdmin(input: deleteDoctorAdmin): createDoctorPayloadAdmin
+
+        # Doctor 
+        doctorUpdate(input: updateDoctor): createDoctorPayload
+        doctorLogin(input: doctorLogin): doctorLoginPayload
     }
     schema {
         query: Query
@@ -30,14 +58,24 @@ const schemaDefinition = `
 module.exports = gqTools.makeExecutableSchema({
     typeDefs: [
         schemaDefinition,
-        user
+        admin,
+        doctorAdmin,
+        doctor
     ],
     resolvers: {
         Query: {
             getUserList
         },
         Mutation: {
-            createNewUser
+            createNewUser,
+            loginAdmin,
+            updateAdmin,
+            deleteAdmin,
+            createDoctorAdmin,
+            updateDoctorAdmin,
+            deleteDoctorAdmin,
+            doctorUpdate,
+            doctorLogin
         }
     },
     
