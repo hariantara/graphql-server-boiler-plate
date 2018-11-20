@@ -1,9 +1,7 @@
-var db = require('../../../../mysql_connection')
+var db = require('../../../../mysql_connection') 
 
-const doctorUpdate = async (_, args, context) => {
-    console.log('args: ', args)
-
-    if (context.userAuth.role !== 1) {
+const patientUpdate = async (_, args, context) => {
+    if (context.userAuth.role !== 2) {
         return { error: 'Un Authorized' }
     }
 
@@ -14,34 +12,31 @@ const doctorUpdate = async (_, args, context) => {
             email = args.input.email.toLowerCase(),
             phone = args.input.phone,
             id_card = args.input.id_card,
-            sip = args.input.sip,
-            photo = args.input.photo 
+            photo = args.input.photo
 
-        let checkId = await db.execute(`select * from users where id = ${id} and deleted_at is null and role = 1`)
+        let checkId = await db.execute(`select * from users where id = ${id} and deleted_at is null and role = 2`)
         console.log('checkId: ', checkId)
 
-        if (checkId[0].length > 0){
-            let updateDoctor = `
+        if(checkId[0].length > 0){
+            let updatePatient = `
                 update users set name = '${name}',
                 username = '${username}',
                 email = '${email}',
                 phone = '${phone}',
                 id_card = '${id_card}',
-                SIP = '${sip}',
                 photo = '${photo}'
                 where id = ${id}
                 and deleted_at is null
-                and role = 1
+                and role = 2
             `
 
-            let runUpdateDoctor = await db.execute(updateDoctor)
-            console.log('runUpdateDoctor: ', runUpdateDoctor)
+            let runUpdatePatient = await db.execute(updatePatient)
 
-            if (runUpdateDoctor[0].affectedRows === 1){
-                let getUpdatedUsers = await db.execute(`select * from users where id = ${id} and deleted_at is null and role = 1`)
+            if(runUpdatePatient[0].affectedRows === 1){
+                let getUpdatedUsers = await db.execute(`select * from users where id = ${id} and deleted_at is null and role = 2`)
                 console.log('getUpdatedUsers: ', getUpdatedUsers)
 
-                let doctor = await Promise.all(getUpdatedUsers[0].map(async(data)=>{
+                let patient = await Promise.all(getUpdatedUsers[0].map(async(data)=>{
                     let result = {
                         id: data.id,
                         name: data.name,
@@ -57,7 +52,7 @@ const doctorUpdate = async (_, args, context) => {
                 }))
 
                 return {
-                    doctor: doctor[0],
+                    patient: patient[0],
                     error: null
                 }
             }else{
@@ -72,8 +67,9 @@ const doctorUpdate = async (_, args, context) => {
             error: err.message
         }
     }
+
 }
 
 module.exports = {
-    doctorUpdate
+    patientUpdate
 }

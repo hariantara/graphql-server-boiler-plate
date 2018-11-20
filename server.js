@@ -72,6 +72,7 @@ const authentication = async(req, db) => {
         let decoded = jwt.verify(token, process.env.SALT)
         // console.log('decoded: ', decoded)
         return {
+          id: decoded.id,
           name: decoded.name,
           username: decoded.username,
           email: decoded.email,

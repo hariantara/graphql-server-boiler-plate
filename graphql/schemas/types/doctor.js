@@ -21,7 +21,6 @@ doctor = `
     }
 
     input updateDoctor {
-        id: Int
         name: String 
         username: String 
         email: String 

@@ -19,6 +19,7 @@ const doctorLogin = async (_, args, context) => {
 
             if(decrypt){
                 let token = await jwt.sign({
+                    id: checkUsername[0][0].id,
                     name: checkUsername[0][0].name,
                     username: checkUsername[0][0].username,
                     email: checkUsername[0][0].email,

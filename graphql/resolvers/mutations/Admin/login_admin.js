@@ -17,6 +17,7 @@ const loginAdmin = async (_, args, context) => {
         console.log('decrypt: ', decrypt)
         if (decrypt){
             let token = await jwt.sign({ 
+                id: getDbPassword[0][0].id,
                 name: getDbPassword[0][0].name,
                 username: getDbPassword[0][0].username,
                 email: getDbPassword[0][0].email,
