@@ -11,6 +11,7 @@ const deleteAdmin = require('./mutations/Admin/delete_admin')
 const createDoctorAdmin = require('./mutations/Admin/create_doctor')
 const updateDoctorAdmin = require('./mutations/Admin/update_doctor')
 const deleteDoctorAdmin = require('./mutations/Admin/delete_doctor')
+const createClinic = require('./mutations/Admin/create_clinic')
 
 // Doctor 
 const doctorUpdate = require('./mutations/Doctor/doctor_update')
@@ -34,7 +35,8 @@ const resolversFunc = {
     doctorLogin,
     patientRegister,
     patientLogin,
-    patientUpdate
+    patientUpdate,
+    createClinic
 }
 
 module.exports = resolversFunc

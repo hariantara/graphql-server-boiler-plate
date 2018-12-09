@@ -7,6 +7,7 @@ const patientLogin = async (_, args, context) => {
         let username = args.input.username,
             password = args.input.password 
 
+
         let getUsersData = await db.execute(`select * from users where username = '${username}' or email = '${username}' or phone = '${username}' and deleted_at is null`)
 
         let decrypt = await argon2.verify(getUsersData[0][0].password, password)

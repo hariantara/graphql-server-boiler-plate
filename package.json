@@ -32,6 +32,7 @@
     "mysql2": "^1.5.3",
     "nodemailer": "^4.6.4",
     "nodemon": "^1.17.3",
+    "stripe": "^6.15.2",
     "winston": "^3.1.0"
   }
 }

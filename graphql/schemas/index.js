@@ -5,6 +5,7 @@ const gqTools = require('graphql-tools');
 // admin Types
 const admin = require('./types/admin');
 const doctorAdmin = require('./types/doctor_admin')
+const clinic = require('./types/clinic')
 
 // doctor Types 
 const doctor = require('./types/doctor')
@@ -25,6 +26,7 @@ const loginAdmin = resolversFunc.loginAdmin.loginAdmin
 const createDoctorAdmin = resolversFunc.createDoctorAdmin.createDoctorAdmin
 const updateDoctorAdmin = resolversFunc.updateDoctorAdmin.updateDoctorAdmin
 const deleteDoctorAdmin = resolversFunc.deleteDoctorAdmin.deleteDoctorAdmin
+const createClinic = resolversFunc.createClinic.createClinic
 
 // Doctor 
 const doctorUpdate = resolversFunc.doctorUpdate.doctorUpdate
@@ -50,6 +52,7 @@ const schemaDefinition = `
         createDoctorAdmin(input: createDoctorAdmin): createDoctorPayloadAdmin
         updateDoctorAdmin(input: updateDoctorAdmin): createDoctorPayloadAdmin
         deleteDoctorAdmin(input: deleteDoctorAdmin): createDoctorPayloadAdmin
+        createClinic(input: clinicInput): clinicPayload
 
         # Doctor 
         doctorUpdate(input: updateDoctor): createDoctorPayload
@@ -72,7 +75,8 @@ module.exports = gqTools.makeExecutableSchema({
         admin,
         doctorAdmin,
         doctor,
-        patient
+        patient,
+        clinic
     ],
     resolvers: {
         Query: {
@@ -90,7 +94,8 @@ module.exports = gqTools.makeExecutableSchema({
             doctorLogin,
             patientRegister,
             patientLogin,
-            patientUpdate
+            patientUpdate,
+            createClinic,
         }
     },
     
