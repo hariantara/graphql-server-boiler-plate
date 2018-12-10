@@ -1,18 +1,22 @@
 require('dotenv').config()
-var fs = require('fs')
-var path = require('path')
-var express = require('express');
-var graphqlHTTP = require('express-graphql');
-var { buildSchema } = require('graphql');
-var { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
-var { makeExecutableSchema } = require('graphql-tools');
-var { ApolloEngine } = require('apollo-engine');
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var db = require('./mysql_connection')
-var jwt = require('jsonwebtoken');
-var winston = require('./winston/index');
-var morgan = require('morgan')
+
+const { createServer } = require('http');
+const fs = require('fs')
+const path = require('path')
+const express = require('express');
+
+const { execute, subscribe } = require('graphql');
+const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+
+
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const db = require('./mysql_connection')
+const jwt = require('jsonwebtoken');
+const winston = require('./winston/index');
+const morgan = require('morgan')
 const multer = require('multer')
 
 const PORT = process.env.PORT || 3000 // env goes here
@@ -100,12 +104,15 @@ const wrapper = async(req, res,  next) => {
 app.use(morgan('combined', { stream: accessLogStream }))
 app.use(morgan('combined', { stream: winston.stream }))
 
-app.use(cors());
+app.use('*', cors({ origin: `http://localhost:3000` }));
 // The GraphQL endpoint
 app.use('/graphql', bodyParser.json(), graphqlExpress(wrapper));
 
 // GraphiQL, a visual editor for queries
-app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
+app.use('/graphiql', graphiqlExpress({ 
+  endpointURL: '/graphql',
+  subscriptionsEndpoint: `ws://localhost:4000/subscriptions` 
+}));
 
 app.post('/api/upload', (req, res) => {
   console.log('REQ: ', req.files);
@@ -140,8 +147,20 @@ app.post('/api/upload', (req, res) => {
   });
 });
 
+
+// console.log('SCHEMA: ', schema)
 // Start the server
-app.listen({
-  port: PORT,
-  status: console.log('Server run in PORT = ', PORT)
+const ws = createServer(app)
+ws.listen(PORT, () => {
+  console.log(`Go to http://localhost:${PORT}/graphiql to run queries!`);
+
+  new SubscriptionServer({
+    execute,
+    subscribe,
+    schema,
+    onConnect: () => console.log("Client connected!")
+  }, {
+      server: ws,
+      path: '/subscriptions',
+  });
 });

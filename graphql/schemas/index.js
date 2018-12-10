@@ -1,11 +1,13 @@
 const gqTools = require('graphql-tools');
-
+const { PubSub, withFilter } = require('graphql-subscriptions');
+const pubsub = new PubSub();
+const { subscribe } = require('graphql');
 // Import graphql types
-
 // admin Types
 const admin = require('./types/admin');
 const doctorAdmin = require('./types/doctor_admin')
 const clinic = require('./types/clinic')
+const Notifications = require('./types/notification')
 
 // doctor Types 
 const doctor = require('./types/doctor')
@@ -16,6 +18,7 @@ const resolversFunc = require('../resolvers')
 
 //Query Resolvers
 const getUserList = resolversFunc.getUserList.getUserList
+const notifications = resolversFunc.notifications.notifications
 
 //Mutations Resolvers
 // Admin
@@ -37,10 +40,18 @@ const patientRegister = resolversFunc.patientRegister.patientRegister
 const patientLogin = resolversFunc.patientLogin.patientLogin
 const patientUpdate = resolversFunc.patientUpdate.patientUpdate
 
+const pushNotification = resolversFunc.pushNotification.pushNotification
+
+// Subscription
+var newNotification = resolversFunc.newNotification.newNotification
+console.log('newNotification:', newNotification)
+
+
 //Schema Definitions
 const schemaDefinition = `
     type Query {
         getUserList: getAlluser
+        notifications: [Notifications]
     }
 
     type Mutation {
@@ -62,10 +73,18 @@ const schemaDefinition = `
         patientRegister(input: patientRegister): patientPayload
         patientLogin(input: patientLogin): patientLoginPayload
         patientUpdate(input: patientUpdate): patientPayload
+
+        # Push Notification 
+        pushNotification(label: String!): Notifications
+
+    }
+    type Subscription {
+        newNotification: Notifications
     }
     schema {
         query: Query
         mutation: Mutation
+        subscription: Subscription
     }
 `
 
@@ -76,11 +95,13 @@ module.exports = gqTools.makeExecutableSchema({
         doctorAdmin,
         doctor,
         patient,
-        clinic
+        clinic,
+        Notifications,
     ],
     resolvers: {
         Query: {
-            getUserList
+            getUserList,
+            notifications,
         },
         Mutation: {
             createNewUser,
@@ -96,6 +117,10 @@ module.exports = gqTools.makeExecutableSchema({
             patientLogin,
             patientUpdate,
             createClinic,
+            pushNotification
+        },
+        Subscription: {
+            newNotification
         }
     },
     
