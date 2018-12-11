@@ -8,7 +8,6 @@ const express = require('express');
 const { execute, subscribe } = require('graphql');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 
-
 const { SubscriptionServer } = require('subscriptions-transport-ws');
 
 const bodyParser = require('body-parser');
@@ -148,13 +147,12 @@ app.post('/api/upload', (req, res) => {
 });
 
 
-// console.log('SCHEMA: ', schema)
 // Start the server
 const ws = createServer(app)
 ws.listen(PORT, () => {
   console.log(`Go to http://localhost:${PORT}/graphiql to run queries!`);
 
-  new SubscriptionServer({
+  SubscriptionServer.create({
     execute,
     subscribe,
     schema,
@@ -164,3 +162,4 @@ ws.listen(PORT, () => {
       path: '/subscriptions',
   });
 });
+

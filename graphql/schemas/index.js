@@ -8,7 +8,7 @@ const admin = require('./types/admin');
 const doctorAdmin = require('./types/doctor_admin')
 const clinic = require('./types/clinic')
 const Notifications = require('./types/notification')
-
+console.log('Notifications: ', Notifications)
 // doctor Types 
 const doctor = require('./types/doctor')
 const patient = require('./types/patient')
@@ -43,8 +43,8 @@ const patientUpdate = resolversFunc.patientUpdate.patientUpdate
 const pushNotification = resolversFunc.pushNotification.pushNotification
 
 // Subscription
-var newNotification = resolversFunc.newNotification.newNotification
-console.log('newNotification:', newNotification)
+var newNotifications = resolversFunc.newNotifications.newNotifications
+console.log('newNotification:', newNotifications)
 
 
 //Schema Definitions
@@ -79,7 +79,7 @@ const schemaDefinition = `
 
     }
     type Subscription {
-        newNotification: Notifications
+        newNotifications: Notifications
     }
     schema {
         query: Query
@@ -120,7 +120,7 @@ module.exports = gqTools.makeExecutableSchema({
             pushNotification
         },
         Subscription: {
-            newNotification
+            newNotifications
         }
     },
     

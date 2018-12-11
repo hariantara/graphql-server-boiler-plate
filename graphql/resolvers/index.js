@@ -25,7 +25,7 @@ const patientUpdate = require('./mutations/Patient/patient_update')
 // Notification 
 const notifications = require('./queries/notification')
 const pushNotification = require('./mutations/Push_Notification/push_notification')
-const newNotification = require('./subscription/new_notification')
+const newNotifications = require('./subscription/new_notification')
 
 const resolversFunc = {
     getUserList,
@@ -44,7 +44,7 @@ const resolversFunc = {
     createClinic,
     notifications,
     pushNotification,
-    newNotification
+    newNotifications
 }
 
 module.exports = resolversFunc
