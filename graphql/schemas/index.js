@@ -8,7 +8,8 @@ const admin = require('./types/admin');
 const doctorAdmin = require('./types/doctor_admin')
 const clinic = require('./types/clinic')
 const Notifications = require('./types/notification')
-console.log('Notifications: ', Notifications)
+const auth = require('./types/auth')
+// console.log('Notifications: ', Notifications)
 // doctor Types 
 const doctor = require('./types/doctor')
 const patient = require('./types/patient')
@@ -21,6 +22,10 @@ const getUserList = resolversFunc.getUserList.getUserList
 const notifications = resolversFunc.notifications.notifications
 
 //Mutations Resolvers
+
+// auth 
+const authCheck = resolversFunc.authCheck.authCheck
+
 // Admin
 const createNewUser = resolversFunc.createNewUser.createNewUser
 const updateAdmin = resolversFunc.updateAdmin.updateAdmin
@@ -29,7 +34,10 @@ const loginAdmin = resolversFunc.loginAdmin.loginAdmin
 const createDoctorAdmin = resolversFunc.createDoctorAdmin.createDoctorAdmin
 const updateDoctorAdmin = resolversFunc.updateDoctorAdmin.updateDoctorAdmin
 const deleteDoctorAdmin = resolversFunc.deleteDoctorAdmin.deleteDoctorAdmin
+
+// Admin Clinic Management
 const createClinic = resolversFunc.createClinic.createClinic
+const updateClinic = resolversFunc.updateClinic.updateClinic
 
 // Doctor 
 const doctorUpdate = resolversFunc.doctorUpdate.doctorUpdate
@@ -50,11 +58,15 @@ console.log('newNotification:', newNotifications)
 //Schema Definitions
 const schemaDefinition = `
     type Query {
+        # auth
+        authCheck: auth 
+        
         getUserList: getAlluser
         notifications: [Notifications]
     }
 
     type Mutation {
+
         # Admin
         createNewUser(input: newUser): createNewUserPayload
         loginAdmin(input: loginAdmin): loginAdminPayload
@@ -64,6 +76,7 @@ const schemaDefinition = `
         updateDoctorAdmin(input: updateDoctorAdmin): createDoctorPayloadAdmin
         deleteDoctorAdmin(input: deleteDoctorAdmin): createDoctorPayloadAdmin
         createClinic(input: clinicInput): clinicPayload
+        updateClinic(input: clinicUpdate): clinicPayload
 
         # Doctor 
         doctorUpdate(input: updateDoctor): createDoctorPayload
@@ -97,11 +110,13 @@ module.exports = gqTools.makeExecutableSchema({
         patient,
         clinic,
         Notifications,
+        auth
     ],
     resolvers: {
         Query: {
             getUserList,
             notifications,
+            authCheck
         },
         Mutation: {
             createNewUser,
@@ -117,7 +132,8 @@ module.exports = gqTools.makeExecutableSchema({
             patientLogin,
             patientUpdate,
             createClinic,
-            pushNotification
+            updateClinic,
+            pushNotification,
         },
         Subscription: {
             newNotifications

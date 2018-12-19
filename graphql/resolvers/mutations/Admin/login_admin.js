@@ -21,7 +21,8 @@ const loginAdmin = async (_, args, context) => {
                 name: getDbPassword[0][0].name,
                 username: getDbPassword[0][0].username,
                 email: getDbPassword[0][0].email,
-                role: getDbPassword[0][0].role
+                role: getDbPassword[0][0].role,
+                photo: getDbPassword[0][0].photo
             }, process.env.SALT);
             console.log('token: ', token)
 

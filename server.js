@@ -66,6 +66,7 @@ function unless(paths, middleware) {
   };
 }
 
+
 const authentication = async(req, db) => {
     //auth jwt token goes here
     try{
@@ -79,7 +80,8 @@ const authentication = async(req, db) => {
           name: decoded.name,
           username: decoded.username,
           email: decoded.email,
-          role: decoded.role
+          role: decoded.role,
+          photo: decoded.photo
         }
       }
     }catch(err){
@@ -91,6 +93,12 @@ const authentication = async(req, db) => {
 
 const wrapper = async(req, res,  next) => {
     let userAuth = await authentication(req, db)
+    let file
+    if (req.file) {
+      file = req.file
+    } else {
+      file = []
+    }
     return {
       schema,
       context: {userAuth, db, req},

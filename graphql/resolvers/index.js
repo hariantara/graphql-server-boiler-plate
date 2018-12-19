@@ -1,6 +1,6 @@
 //Query
 const getUserList = require('./queries/users')
-
+const authCheck = require('./queries/authCheck')
 //Mutation
 
 // Admin 
@@ -11,7 +11,10 @@ const deleteAdmin = require('./mutations/Admin/delete_admin')
 const createDoctorAdmin = require('./mutations/Admin/create_doctor')
 const updateDoctorAdmin = require('./mutations/Admin/update_doctor')
 const deleteDoctorAdmin = require('./mutations/Admin/delete_doctor')
+
+// Admin for CLINIC management
 const createClinic = require('./mutations/Admin/create_clinic')
+const updateClinic = require('./mutations/Admin/update_clinic')
 
 // Doctor 
 const doctorUpdate = require('./mutations/Doctor/doctor_update')
@@ -44,7 +47,9 @@ const resolversFunc = {
     createClinic,
     notifications,
     pushNotification,
-    newNotifications
+    newNotifications,
+    updateClinic,
+    authCheck
 }
 
 module.exports = resolversFunc

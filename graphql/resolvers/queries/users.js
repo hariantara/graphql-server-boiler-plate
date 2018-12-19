@@ -12,7 +12,7 @@ const getUserList = async(_, args, context) => {
     }
 
     try{
-        let getAllUsers = await db.execute(`select * from users where deleted_at is NULL`)
+        let getAllUsers = await db.execute(`select * from users where deleted_at is NULL and role = 3`)
         // console.log('getAllUsers: ', getAllUsers.length)
         if (getAllUsers[0].length > 0){
             let user = await Promise.all(getAllUsers[0].map(async(data)=>{
