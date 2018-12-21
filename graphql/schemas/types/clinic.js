@@ -43,4 +43,9 @@ clinic = `
         clinic: clinic
         error: String
     }
+
+    type clinicAllPayload {
+        clinic: [clinic]
+        error: String
+    }
 `

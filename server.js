@@ -110,6 +110,7 @@ const wrapper = async(req, res,  next) => {
 // setup the logger
 app.use(morgan('combined', { stream: accessLogStream }))
 app.use(morgan('combined', { stream: winston.stream }))
+app.use('/static/uploads', express.static('static/uploads'))
 
 app.use('*', cors({ origin: `http://localhost:3000` }));
 // The GraphQL endpoint

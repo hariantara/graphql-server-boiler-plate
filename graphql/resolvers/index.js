@@ -1,6 +1,13 @@
 //Query
 const getUserList = require('./queries/users')
 const authCheck = require('./queries/authCheck')
+const getDetailUser = require('./queries/getDetailUser')
+const getDoctorDetail = require('./queries/getDoctorDetail')
+const getPatientDetail = require('./queries/getPatientDetail')
+const getAllDoctor = require('./queries/getAllDoctor')
+const getAllPatient = require('./queries/getAllPatient')
+const getAllClinic = require('./queries/getAllClinic')
+const getDetailClinic = require('./queries/getDetailClinic')
 //Mutation
 
 // Admin 
@@ -49,7 +56,14 @@ const resolversFunc = {
     pushNotification,
     newNotifications,
     updateClinic,
-    authCheck
+    authCheck,
+    getDetailUser,
+    getDoctorDetail,
+    getPatientDetail,
+    getAllDoctor,
+    getAllPatient,
+    getAllClinic,
+    getDetailClinic
 }
 
 module.exports = resolversFunc

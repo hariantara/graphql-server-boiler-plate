@@ -20,7 +20,13 @@ const resolversFunc = require('../resolvers')
 //Query Resolvers
 const getUserList = resolversFunc.getUserList.getUserList
 const notifications = resolversFunc.notifications.notifications
-
+const getDetailUser = resolversFunc.getDetailUser.getDetailUser
+const getDoctorDetail = resolversFunc.getDoctorDetail.getDoctorDetail
+const getPatientDetail = resolversFunc.getPatientDetail.getPatientDetail
+const getAllDoctor = resolversFunc.getAllDoctor.getAllDoctor
+const getAllPatient = resolversFunc.getAllPatient.getAllPatient
+const getAllClinic = resolversFunc.getAllClinic.getAllClinic
+const getDetailClinic = resolversFunc.getDetailClinic.getDetailClinic
 //Mutations Resolvers
 
 // auth 
@@ -63,6 +69,16 @@ const schemaDefinition = `
         
         getUserList: getAlluser
         notifications: [Notifications]
+
+        getDetailUser(id: Int): getDetailUser
+        getDoctorDetail(id: Int): createDoctorPayloadAdmin
+        getPatientDetail(id: Int): getDetailUser
+
+        getAllDoctor: getAllDoctorPayload
+        getAllPatient: getAlluser
+
+        getAllClinic: clinicAllPayload
+        getDetailClinic(id: Int): clinicPayload
     }
 
     type Mutation {
@@ -72,9 +88,11 @@ const schemaDefinition = `
         loginAdmin(input: loginAdmin): loginAdminPayload
         updateAdmin(input: updateAdmin): createNewUserPayload
         deleteAdmin(input: deleteAdmin): createNewUserPayload
+
         createDoctorAdmin(input: createDoctorAdmin): createDoctorPayloadAdmin
         updateDoctorAdmin(input: updateDoctorAdmin): createDoctorPayloadAdmin
         deleteDoctorAdmin(input: deleteDoctorAdmin): createDoctorPayloadAdmin
+
         createClinic(input: clinicInput): clinicPayload
         updateClinic(input: clinicUpdate): clinicPayload
 
@@ -110,13 +128,20 @@ module.exports = gqTools.makeExecutableSchema({
         patient,
         clinic,
         Notifications,
-        auth
+        auth,
     ],
     resolvers: {
         Query: {
             getUserList,
             notifications,
-            authCheck
+            authCheck,
+            getDetailUser,
+            getDoctorDetail,
+            getPatientDetail,
+            getAllDoctor,
+            getAllPatient,
+            getAllClinic,
+            getDetailClinic
         },
         Mutation: {
             createNewUser,

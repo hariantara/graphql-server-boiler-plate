@@ -18,7 +18,8 @@ const updateDoctorAdmin = async (_, args, context) => {
             phone = args.input.phone,
             id_card = args.input.id_card,
             sip = args.input.sip,
-            photo = args.input.photo 
+            photo = args.input.photo,
+            clinic_id = args.input.clinic_id
 
         let checkId = await db.execute(`select * from users where id = ${id} and role = 1 and deleted_at is null`)
         console.log('checkId: ', checkId[0])
@@ -32,7 +33,8 @@ const updateDoctorAdmin = async (_, args, context) => {
                 phone = '${phone}',
                 id_card = '${id_card}',
                 SIP = '${sip}',
-                photo = '${photo}'
+                photo = '${photo}',
+                clinic_id = ${clinic_id}
                 where id = ${id} 
                 and deleted_at is null
             `
@@ -41,7 +43,26 @@ const updateDoctorAdmin = async (_, args, context) => {
             console.log('runUpdateUsers: ', runUpdateUsers)
 
             if (runUpdateUsers[0].affectedRows === 1) {
-                let getUsersById = await db.execute(`select * from users where id = ${id} and deleted_at is null`)
+                let getUsersById = await db.execute(
+                    `
+                        select
+                        u.id as id,
+                        u.name,
+                        u.username,
+                        u.email,
+                        u.password,
+                        u.phone,
+                        u.id_card,
+                        u.SIP as sip,
+                        u.photo,
+                        c.id as clinic_id,
+                        c.clinic_name as clinic_name,
+                        c.clinic_address as clinic_address
+                        from users u
+                        left join clinic c on c.id = u.clinic_id
+                        where u.id = ${id} and u.deleted_at is null
+                    `
+                )
                 let doctor = await Promise.all(getUsersById[0].map(async (data) => {
                     let result = {
                         id: data.id,
@@ -51,8 +72,11 @@ const updateDoctorAdmin = async (_, args, context) => {
                         password: "******",
                         phone: data.phone,
                         id_card: data.id_card,
-                        sip: data.SIP,
-                        photo: data.photo
+                        sip: data.sip,
+                        photo: data.photo,
+                        clinic_id: data.clinic_id,
+                        clinic_name: data.clinic_name,
+                        clinic_address: data.clinic_address
                     }
                     return result
                 }))

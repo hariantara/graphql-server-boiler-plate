@@ -1,6 +1,7 @@
 var db = require('../../../../mysql_connection')
 
 const updateAdmin = async (_, args, context) => {
+    console.log('MASUK BOS: ')
     console.log('args: ', args)
     
     if(context.userAuth.role !== 3){

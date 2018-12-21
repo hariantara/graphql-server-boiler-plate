@@ -103,7 +103,7 @@ const updateClinic = async (_, args, context) => {
                                     lng: data.southwest_lng
                                 }
                             },
-                            place_id
+                            place_id: data.place_id
                         }
 
                         return result

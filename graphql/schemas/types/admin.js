@@ -15,6 +15,11 @@ user = `
     photo: String 
   }
 
+  type getDetailUser {
+    user: user
+    error: String
+  }
+
   type getAlluser {
     user: [user]
     error: String
