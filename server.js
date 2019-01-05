@@ -113,7 +113,7 @@ app.use(morgan('combined', { stream: accessLogStream }))
 app.use(morgan('combined', { stream: winston.stream }))
 app.use('/static/uploads', express.static('static/uploads'))
 
-app.use('*', cors({ origin: `http://localhost:3000` }));
+app.use('*', cors({ credentials: true, origin: "*" }));
 // The GraphQL endpoint
 app.use('/graphql', bodyParser.json(), graphqlExpress(wrapper));
 
