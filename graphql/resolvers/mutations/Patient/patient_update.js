@@ -19,18 +19,18 @@ const patientUpdate = async (_, args, context) => {
 
         if(checkId[0].length > 0){
             let updatePatient = `
-                update users set name = '${name}',
-                username = '${username}',
-                email = '${email}',
-                phone = '${phone}',
-                id_card = '${id_card}',
-                photo = '${photo}'
-                where id = ${id}
+                update users set name = ?,
+                username = ?,
+                email = ?,
+                phone = ?,
+                id_card = ?,
+                photo = ?
+                where id = ?
                 and deleted_at is null
                 and role = 2
             `
 
-            let runUpdatePatient = await db.execute(updatePatient)
+            let runUpdatePatient = await db.execute(updatePatient, [name, username, email, phone, id_card, photo, id])
 
             if(runUpdatePatient[0].affectedRows === 1){
                 let getUpdatedUsers = await db.execute(`select * from users where id = ${id} and deleted_at is null and role = 2`)

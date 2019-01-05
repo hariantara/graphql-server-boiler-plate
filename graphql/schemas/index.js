@@ -13,7 +13,7 @@ const auth = require('./types/auth')
 // doctor Types 
 const doctor = require('./types/doctor')
 const patient = require('./types/patient')
-
+const booking = require('./types/booking')
 //import graphql Resolvers
 const resolversFunc = require('../resolvers')
 
@@ -27,6 +27,12 @@ const getAllDoctor = resolversFunc.getAllDoctor.getAllDoctor
 const getAllPatient = resolversFunc.getAllPatient.getAllPatient
 const getAllClinic = resolversFunc.getAllClinic.getAllClinic
 const getDetailClinic = resolversFunc.getDetailClinic.getDetailClinic
+const getPatientDetailApp = resolversFunc.getPatientDetailApp.getPatientDetailApp
+const getAllBookAdmin = resolversFunc.getAllBookAdmin.getAllBookAdmin
+const getAllBookApp = resolversFunc.getAllBookApp.getAllBookApp
+const getDetailBookAdmin = resolversFunc.getDetailBookAdmin.getDetailBookAdmin
+const getDetailBookApp = resolversFunc.getDetailBookApp.getDetailBookApp
+const saveFCMToken = resolversFunc.saveFCMToken.saveFCMToken
 //Mutations Resolvers
 
 // auth 
@@ -48,11 +54,13 @@ const updateClinic = resolversFunc.updateClinic.updateClinic
 // Doctor 
 const doctorUpdate = resolversFunc.doctorUpdate.doctorUpdate
 const doctorLogin = resolversFunc.doctorLogin.doctorLogin
-
+const doctorResponseBooking = resolversFunc.doctorResponseBooking.doctorResponseBooking
 // Patient
 const patientRegister = resolversFunc.patientRegister.patientRegister
 const patientLogin = resolversFunc.patientLogin.patientLogin
 const patientUpdate = resolversFunc.patientUpdate.patientUpdate
+const createBooking = resolversFunc.createBooking.createBooking
+
 
 const pushNotification = resolversFunc.pushNotification.pushNotification
 
@@ -73,12 +81,20 @@ const schemaDefinition = `
         getDetailUser(id: Int): getDetailUser
         getDoctorDetail(id: Int): createDoctorPayloadAdmin
         getPatientDetail(id: Int): getDetailUser
+        getPatientDetailApp: getDetailUser
 
         getAllDoctor: getAllDoctorPayload
         getAllPatient: getAlluser
 
         getAllClinic: clinicAllPayload
         getDetailClinic(id: Int): clinicPayload
+
+        getAllBookAdmin: bookingMutiplePayload
+        getAllBookApp: getAllBookAppPayload
+        getDetailBookAdmin(book_id: Int):bookingSinglePayload
+        getDetailBookApp(book_id: Int): getAllBookAppSinglePayload
+
+        saveFCMToken(token: String): Boolean
     }
 
     type Mutation {
@@ -99,11 +115,14 @@ const schemaDefinition = `
         # Doctor 
         doctorUpdate(input: updateDoctor): createDoctorPayload
         doctorLogin(input: doctorLogin): doctorLoginPayload
+        doctorResponseBooking(book_id: Int, response: String): bookingSinglePayload
 
         # Patient
         patientRegister(input: patientRegister): patientPayload
         patientLogin(input: patientLogin): patientLoginPayload
         patientUpdate(input: patientUpdate): patientPayload
+        createBooking(input: createBooking): bookingSinglePayload
+
 
         # Push Notification 
         pushNotification(label: String!): Notifications
@@ -129,6 +148,7 @@ module.exports = gqTools.makeExecutableSchema({
         clinic,
         Notifications,
         auth,
+        booking
     ],
     resolvers: {
         Query: {
@@ -141,7 +161,13 @@ module.exports = gqTools.makeExecutableSchema({
             getAllDoctor,
             getAllPatient,
             getAllClinic,
-            getDetailClinic
+            getDetailClinic,
+            getPatientDetailApp,
+            getAllBookAdmin,
+            getAllBookApp,
+            getDetailBookAdmin,
+            getDetailBookApp,
+            saveFCMToken
         },
         Mutation: {
             createNewUser,
@@ -159,6 +185,8 @@ module.exports = gqTools.makeExecutableSchema({
             createClinic,
             updateClinic,
             pushNotification,
+            createBooking,
+            doctorResponseBooking
         },
         Subscription: {
             newNotifications

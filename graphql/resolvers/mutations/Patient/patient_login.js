@@ -20,7 +20,7 @@ const patientLogin = async (_, args, context) => {
                 email: getUsersData[0][0].email,
                 role: getUsersData[0][0].role
             }, process.env.SALT);
-            console.log('token: ', token)
+            console.log('token: >>>>----', token)
 
             return {
                 token: token,

@@ -8,6 +8,12 @@ const getAllDoctor = require('./queries/getAllDoctor')
 const getAllPatient = require('./queries/getAllPatient')
 const getAllClinic = require('./queries/getAllClinic')
 const getDetailClinic = require('./queries/getDetailClinic')
+const getPatientDetailApp = require('./queries/getPatientDetailApp')
+const getAllBookAdmin = require('./queries/getAllBookAdmin')
+const getAllBookApp = require('./queries/getAllBookApp')
+const getDetailBookAdmin = require('./queries/getDetailBookAdmin')
+const getDetailBookApp = require('./queries/getDetailBookApp')
+const saveFCMToken = require('./queries/saveFCMToken')
 //Mutation
 
 // Admin 
@@ -26,12 +32,12 @@ const updateClinic = require('./mutations/Admin/update_clinic')
 // Doctor 
 const doctorUpdate = require('./mutations/Doctor/doctor_update')
 const doctorLogin = require('./mutations/Doctor/doctor_login')
-
+const doctorResponseBooking = require('./mutations/Booking/responseBooking')
 // Patient 
 const patientRegister = require('./mutations/Patient/patient_register')
 const patientLogin = require('./mutations/Patient/patient_login')
 const patientUpdate = require('./mutations/Patient/patient_update')
-
+const createBooking = require('./mutations/Booking/createBooking')
 // Notification 
 const notifications = require('./queries/notification')
 const pushNotification = require('./mutations/Push_Notification/push_notification')
@@ -63,7 +69,15 @@ const resolversFunc = {
     getAllDoctor,
     getAllPatient,
     getAllClinic,
-    getDetailClinic
+    getDetailClinic,
+    getPatientDetailApp,
+    createBooking,
+    doctorResponseBooking,
+    getAllBookAdmin,
+    getAllBookApp,
+    getDetailBookAdmin,
+    getDetailBookApp,
+    saveFCMToken
 }
 
 module.exports = resolversFunc

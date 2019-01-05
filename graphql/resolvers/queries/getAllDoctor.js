@@ -1,11 +1,11 @@
 var db = require('../../../mysql_connection')
 
 const getAllDoctor = async (_, args, context) => {
-    if (context.userAuth.role !== 3) {
-        return {
-            error: "Un Authorized"
-        }
-    }
+    // if (context.userAuth.role !== 3) {
+    //     return {
+    //         error: "Un Authorized"
+    //     }
+    // }
     try{
         let getAllDataDoctor = await db.execute(`
             select

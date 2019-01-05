@@ -70,8 +70,9 @@ function unless(paths, middleware) {
 const authentication = async(req, db) => {
     //auth jwt token goes here
     try{
+      console.log('req.headers: ', req.headers)
       let token = req.headers.authorization
-
+      console.log('token -x-x-x> :', req.headers.authorization)
       if (token !== null && token !== undefined){
         let decoded = jwt.verify(token, process.env.SALT)
         // console.log('decoded: ', decoded)

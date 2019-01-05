@@ -1,6 +1,7 @@
 var db = require('../../../mysql_connection')
 
 const getPatientDetail = async (_, args, context) => {
+    console.log('context: ', context)
     if (context.userAuth.role !== 3) {
         return {
             error: "Un Authorized"
