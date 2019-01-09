@@ -1,4 +1,5 @@
 var db = require('../../../../mysql_connection') 
+var gcm = require('node-gcm');
 
 const doctorResponseBooking = async (_, args, context) => {
     try{
@@ -41,6 +42,46 @@ const doctorResponseBooking = async (_, args, context) => {
                         }
                         return result
                     }))
+
+                    let PATIENT_KEY = process.env.PATIENT 
+
+                    let doctorName = await db.execute(`select * from users where id = ? and deleted_at is null`, [booking[0].doctor_id])
+
+                    let doc_name = doctorName[0][0].name
+
+                    let token = await db.execute(`select * from fcm where patient_id = ? `, [booking[0].patient_id])
+
+                    let patientDeviceToken = token[0][0].token
+
+                    var sender = new gcm.Sender(PATIENT_KEY);
+
+                    var message = new gcm.Message({
+                        // "to":"fQblBr5Ms-U:APA91bGwxmTUnILPB0YKcaA6t1kBehonF1ztygG0JAMcnsitizEOLc_zyMMY1UOD7v8svq2moIeTyTaMfAr5hEuH4VvQrDgc5fVvU1Ue319UuVRVjrTGBSRUlOGr1X5JjsC4WgoibIcYoehAV54GaEuDixQ2d1sq-A",
+                        "content_available": true,
+                        "sound": "default",
+                        "icon": "ic_notif",
+                        "priority": "high",
+                        "notification": {
+                            "title": `${doctorName[0][0].name} Has Response your Appointment`,
+                            "body": `Doctor ${doctorName[0][0].name} has ${booking[0].status}`,
+                            "click_action": "appointment"
+                        },
+                        "data": {
+                            "id_appointment": `test`,
+                            "id_doctor": `test`,
+                            "id_patient": `test`,
+                            "speciality": `test`,
+                            "speciality_id": `test`
+                        }
+                    });
+
+                    var registrationTokens = [];
+                    registrationTokens.push(patientDeviceToken)
+
+                    sender.send(message, { registrationTokens: registrationTokens }, function (err, response) {
+                        if (err) console.error(err);
+                        else console.log(response);
+                    });
 
                     return {
                         booking: booking[0],
