@@ -3,82 +3,42 @@ const { PubSub, withFilter } = require('graphql-subscriptions');
 const pubsub = new PubSub();
 const { subscribe } = require('graphql');
 // Import graphql types
-// admin Types
-const admin = require('./types/admin');
-const doctorAdmin = require('./types/doctor_admin')
-const clinic = require('./types/clinic')
+
+// Type Schema Graphql
 const Notifications = require('./types/notification')
 console.log('Notifications: ', Notifications)
-// doctor Types 
-const doctor = require('./types/doctor')
-const patient = require('./types/patient')
+
 
 //import graphql Resolvers
+// will add here . . .
 const resolversFunc = require('../resolvers')
 
 //Query Resolvers
-const getUserList = resolversFunc.getUserList.getUserList
+// will add here . . .
 const notifications = resolversFunc.notifications.notifications
 
 //Mutations Resolvers
-// Admin
-const createNewUser = resolversFunc.createNewUser.createNewUser
-const updateAdmin = resolversFunc.updateAdmin.updateAdmin
-const deleteAdmin = resolversFunc.deleteAdmin.deleteAdmin
-const loginAdmin = resolversFunc.loginAdmin.loginAdmin
-const createDoctorAdmin = resolversFunc.createDoctorAdmin.createDoctorAdmin
-const updateDoctorAdmin = resolversFunc.updateDoctorAdmin.updateDoctorAdmin
-const deleteDoctorAdmin = resolversFunc.deleteDoctorAdmin.deleteDoctorAdmin
-const createClinic = resolversFunc.createClinic.createClinic
-
-// Doctor 
-const doctorUpdate = resolversFunc.doctorUpdate.doctorUpdate
-const doctorLogin = resolversFunc.doctorLogin.doctorLogin
-
-// Patient
-const patientRegister = resolversFunc.patientRegister.patientRegister
-const patientLogin = resolversFunc.patientLogin.patientLogin
-const patientUpdate = resolversFunc.patientUpdate.patientUpdate
-
+// will add here . . .
 const pushNotification = resolversFunc.pushNotification.pushNotification
 
 // Subscription
-var newNotifications = resolversFunc.newNotifications.newNotifications
-console.log('newNotification:', newNotifications)
+const newNotifications = resolversFunc.newNotifications.newNotifications
 
 
 //Schema Definitions
 const schemaDefinition = `
     type Query {
-        getUserList: getAlluser
+        # Example notif
         notifications: [Notifications]
     }
 
     type Mutation {
-        # Admin
-        createNewUser(input: newUser): createNewUserPayload
-        loginAdmin(input: loginAdmin): loginAdminPayload
-        updateAdmin(input: updateAdmin): createNewUserPayload
-        deleteAdmin(input: deleteAdmin): createNewUserPayload
-        createDoctorAdmin(input: createDoctorAdmin): createDoctorPayloadAdmin
-        updateDoctorAdmin(input: updateDoctorAdmin): createDoctorPayloadAdmin
-        deleteDoctorAdmin(input: deleteDoctorAdmin): createDoctorPayloadAdmin
-        createClinic(input: clinicInput): clinicPayload
-
-        # Doctor 
-        doctorUpdate(input: updateDoctor): createDoctorPayload
-        doctorLogin(input: doctorLogin): doctorLoginPayload
-
-        # Patient
-        patientRegister(input: patientRegister): patientPayload
-        patientLogin(input: patientLogin): patientLoginPayload
-        patientUpdate(input: patientUpdate): patientPayload
-
-        # Push Notification 
+        # Example push notification 
         pushNotification(label: String!): Notifications
 
     }
     type Subscription {
+        # Example notif sub
         newNotifications: Notifications
     }
     schema {
@@ -91,32 +51,13 @@ const schemaDefinition = `
 module.exports = gqTools.makeExecutableSchema({
     typeDefs: [
         schemaDefinition,
-        admin,
-        doctorAdmin,
-        doctor,
-        patient,
-        clinic,
         Notifications,
     ],
     resolvers: {
         Query: {
-            getUserList,
             notifications,
         },
         Mutation: {
-            createNewUser,
-            loginAdmin,
-            updateAdmin,
-            deleteAdmin,
-            createDoctorAdmin,
-            updateDoctorAdmin,
-            deleteDoctorAdmin,
-            doctorUpdate,
-            doctorLogin,
-            patientRegister,
-            patientLogin,
-            patientUpdate,
-            createClinic,
             pushNotification
         },
         Subscription: {
