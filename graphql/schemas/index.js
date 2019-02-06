@@ -6,7 +6,7 @@ const { subscribe } = require('graphql');
 
 // Type Schema Graphql
 const Notifications = require('./types/notification')
-console.log('Notifications: ', Notifications)
+const flightScrapper = require('./types/flightScrapper')
 
 
 //import graphql Resolvers
@@ -20,10 +20,11 @@ const notifications = resolversFunc.notifications.notifications
 //Mutations Resolvers
 // will add here . . .
 const pushNotification = resolversFunc.pushNotification.pushNotification
+const searchFlight = resolversFunc.flighScrapping.flighScrapping
 
 // Subscription
 const newNotifications = resolversFunc.newNotifications.newNotifications
-
+const searchFlightResponse = resolversFunc.searchFlightResponse.searchFlightResponse
 
 //Schema Definitions
 const schemaDefinition = `
@@ -35,11 +36,12 @@ const schemaDefinition = `
     type Mutation {
         # Example push notification 
         pushNotification(label: String!): Notifications
-
+        searchFlight(input: searchFlight): responseFlightSearchPayload
     }
     type Subscription {
         # Example notif sub
         newNotifications: Notifications
+        searchFlightResponse: responseFlightSearchPayload
     }
     schema {
         query: Query
@@ -52,16 +54,19 @@ module.exports = gqTools.makeExecutableSchema({
     typeDefs: [
         schemaDefinition,
         Notifications,
+        flightScrapper,
     ],
     resolvers: {
         Query: {
             notifications,
         },
         Mutation: {
-            pushNotification
+            pushNotification,
+            searchFlight,
         },
         Subscription: {
-            newNotifications
+            newNotifications,
+            searchFlightResponse,
         }
     },
     
